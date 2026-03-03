@@ -27,3 +27,21 @@ Se você trabalha com **infraestrutura de redes** ou está dando os primeiros pa
 
 ```bash
 pip install --upgrade netaddr
+
+```
+---
+
+📘 **Tutorial 1  - IPAddress**
+
+```python
+from netaddr import IPAddress
+addr_obj = IPAddress('203.0.113.75')
+
+print(f"Version: {addr_obj.version}")
+print(f"ReverseDNS: {addr_obj.reverse_dns}")
+
+# Version: 4
+# Reversw DNS: 75.113.0.203.in-addr.arpa.
+
+# Outros exemplos em Tutorial_1_-_IP_Address.py
+```
