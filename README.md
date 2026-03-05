@@ -45,3 +45,32 @@ print(f"ReverseDNS: {addr_obj.reverse_dns}")
 
 # Outros exemplos em Tutorial_1_-_IP_Address.py
 ```
+
+---
+
+📘 **Tutorial 2  - IPNetwork e IPSet**
+
+```python
+from netaddr import IPNetwork, IPSet
+
+ips_autorizados = IPSet()
+ips_autorizados.add(IPNetwork('10.0.0.0/8'))      # Rede interna
+ips_autorizados.add(IPNetwork('172.16.0.0/12'))   # Rede privada
+ips_autorizados.add(IPNetwork('192.168.0.0/16'))  # Rede privada
+
+ips_para_testar = ['10.50.100.1', '8.8.8.8', '172.20.1.1', '192.168.100.1']
+
+print(f"IPs autorizados: {len(ips_autorizados)} endereços totais\n")
+for ip in ips_para_testar:
+    autorizado = ip in ips_autorizados
+    status = "✓ Autorizado" if autorizado else "✗ Não autorizado"
+    print(f"  {ip}: {status}")
+
+#IPs autorizados: 17891328 endereços totais
+
+#  10.50.100.1: ✓ Autorizado
+#  8.8.8.8: ✗ Não autorizado
+#  172.20.1.1: ✓ Autorizado
+#  192.168.100.1: ✓ Autorizado
+```
+
