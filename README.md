@@ -269,11 +269,3 @@ print(mac.format(mac_cisco))  # 0011.2233.4455
 ## 📝 Licença
 
 Este repositório está licenciado sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
-
----
-
-<div align="center">
-
-**Made with ❤️ para a comunidade de automação de redes**
-
-</div>
