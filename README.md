@@ -74,3 +74,55 @@ for ip in ips_para_testar:
 #  192.168.100.1: ✓ Autorizado
 ```
 
+---
+
+📘 **Tutorial 3  - IPNetwork e IPSet**
+
+```python
+from netaddr import IPRange
+
+i# Criar um intervalo de IPs
+intervalo = IPRange('192.168.1.1', '192.168.1.10')
+print(f"Intervalo: {intervalo}")
+print(f"Tamanho: {len(intervalo)} IPs")
+print()
+
+# Listar os IPs no intervalo
+print("IPs no intervalo:")
+for ip in intervalo:
+    print(f"  - {ip}")
+
+#Intervalo: 192.168.1.1-192.168.1.10
+#Tamanho: 10 IPs
+
+#IPs no intervalo:
+#  - 192.168.1.1
+#  - 192.168.1.2
+#  - 192.168.1.3
+#  - 192.168.1.4
+#  - 192.168.1.5
+#  - 192.168.1.6
+#  - 192.168.1.7
+#  - 192.168.1.8
+#  - 192.168.1.9
+#  - 192.168.1.10
+
+from netaddr import IPGlob
+
+# Padrão simples com wildcard
+glob1 = IPGlob('192.168.1.*')
+print(f"Padrão: 192.168.1.*")
+print(f"Tamanho: {len(glob1)} IPs")
+print("Primeiros 5 IPs:")
+for ip in list(glob1)[:5]:
+    print(f"  - {ip}")
+
+#Padrão: 192.168.1.*
+#Tamanho: 256 IPs
+#Primeiros 5 IPs:
+#  - 192.168.1.0
+#  - 192.168.1.1
+#  - 192.168.1.2
+#  - 192.168.1.3
+#  - 192.168.1.4
+```
