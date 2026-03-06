@@ -157,3 +157,9 @@ print()
 #Hexadecimal:        0x1122334455
 #Inteira:            73588229205
 ```
+
+---
+
+## 📚 Referências
+
+- **Documentação Oficial do netaddr**: https://netaddr.readthedocs.io/en/latest/index.html
