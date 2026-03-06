@@ -76,7 +76,7 @@ for ip in ips_para_testar:
 
 ---
 
-📘 **Tutorial 3  - IPNetwork e IPSet**
+📘 **Tutorial 3  - IPRange e IPGlob**
 
 ```python
 from netaddr import IPRange
@@ -125,4 +125,35 @@ for ip in list(glob1)[:5]:
 #  - 192.168.1.2
 #  - 192.168.1.3
 #  - 192.168.1.4
+```
+
+---
+
+📘 **Tutorial 4  - MAC**
+
+```python
+from netaddr import EUI, mac_bare, mac_unix, mac_cisco
+
+mac = EUI('00:11:22:33:44:55')
+
+# Diferentes formatos de saída
+print(f"Padrão (IEEE):      {mac}")
+print(f"Formato BARE:       {mac.format(mac_bare)}")
+print(f"Formato UNIX:       {mac.format(mac_unix)}")
+print(f"Formato CISCO:      {mac.format(mac_cisco)}")
+print()
+
+print(f"Binária:            {bin(int(mac))}")
+print(f"Hexadecimal:        {hex(int(mac))}")
+print(f"Inteira:            {int(mac)}")
+print()
+
+#Padrão (IEEE):      00-11-22-33-44-55
+#Formato BARE:       001122334455
+#Formato UNIX:       0:11:22:33:44:55
+#Formato CISCO:      0011.2233.4455
+
+#Binária:            0b1000100100010001100110100010001010101
+#Hexadecimal:        0x1122334455
+#Inteira:            73588229205
 ```
