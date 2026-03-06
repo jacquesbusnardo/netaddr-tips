@@ -1,139 +1,160 @@
-# 🌐 Dicas práticas e exemplos de como usar netaddr
+<!-- -->
+<div align="center">
 
-A biblioteca **netaddr** é uma ferramenta essencial para quem trabalha com **automação de redes**.  
-Ela permite manipular endereços **IPv4**, **IPv6** e **MAC** de forma eficiente, sendo ideal para tarefas como:
+# 🌐 Dicas Práticas e Exemplos com netaddr
 
-✅ Validação de endereços  
-✅ Agrupamento e sumarização de redes  
-✅ Manipulação e conversão de formatos  
-✅ Operações matemáticas com IPs  
+**Uma guia prático para dominar a manipulação de endereços IP, IPv6 e MAC em Python**
 
----
+[![Python](https://img.shields.io/badge/python-3.6+-blue.svg)](https://www.python.org/)
+[![netaddr](https://img.shields.io/badge/netaddr-beyond%200.7.18-brightgreen.svg)](https://pypi.org/project/netaddr/)
+[![License](https://img.shields.io/badge/license-MIT-green.svg)]()
 
-## 📦 Sobre este repositório
-
-Aqui você encontrará **dicas práticas** e **exemplos de código** que demonstram como utilizar os principais recursos da biblioteca `netaddr` em projetos reais de automação de rede.
-
-Se você trabalha com **infraestrutura de redes** ou está dando os primeiros passos no mundo da **automação**, este conteúdo foi feito para ajudar você a:
-
-🚀 Ganhar produtividade  
-🧠 Escrever códigos mais robustos  
-🔧 Tratar endereços IP e MAC com segurança e elegância  
-
+</div>
 
 ---
 
-📘 **Dica:** Mantenha a biblioteca sempre atualizada:
+## 📋 Índice
+
+- [Sobre este Repositório](#-sobre-este-repositório)
+- [Instalação e Configuração](#-instalação-e-configuração)
+- [Tutoriais](#-tutoriais)
+- [Exemplos Rápidos](#-exemplos-rápidos)
+- [Referências](#-referências)
+
+---
+
+## 📦 Sobre este Repositório
+
+A biblioteca **netaddr** é uma ferramenta essencial para quem trabalha com **automação de redes** e **infraestrutura em nuvem**. Este repositório contém:
+
+✅ **Exemplos práticos** de manipulação de endereços IP (IPv4 e IPv6)  
+✅ **Dicas de validação** e tratamento de endereços  
+✅ **Operações com redes** (sumarização, subdivisão, verificações)  
+✅ **Trabalho com endereços MAC** em vários formatos  
+✅ **Zona reversa DNS** para configurações de rede  
+
+**Ideal para:**
+- 🚀 Automação de redes e infraestrutura
+- 🔧 Desenvolvimento de ferramentas de rede  
+- 📊 Análise e processamento de dados de IP
+- 🛡️ Validação e segurança de endereços
+
+---
+
+## ⚙️ Instalação e Configuração
+
+### Instalar a biblioteca
+
+```bash
+pip install netaddr
+```
+
+### Manter atualizado
 
 ```bash
 pip install --upgrade netaddr
-
 ```
+
+### Verificar instalação
+
+```bash
+python -c "from netaddr import IPAddress; print('✓ netaddr instalado com sucesso!')"
+```
+
 ---
 
-📘 **Tutorial 1  - IPAddress**
+## 📚 Tutoriais
+
+### 1️⃣ **Tutorial 1 - IPAddress**  
+Validação, inspecção e manipulação de endereços IP individuais
+
+**Arquivo:** `Tutorial_1_-_IP_Address.py`
 
 ```python
 from netaddr import IPAddress
+
+# Criar um endereço IP
 addr_obj = IPAddress('203.0.113.75')
 
-print(f"Version: {addr_obj.version}")
-print(f"ReverseDNS: {addr_obj.reverse_dns}")
-
-# Version: 4
-# Reversw DNS: 75.113.0.203.in-addr.arpa.
-
-# Outros exemplos em Tutorial_1_-_IP_Address.py
+# Inspecionar propriedades
+print(f"Versão: {addr_obj.version}")                    # 4
+print(f"Reverse DNS: {addr_obj.reverse_dns}")          # 75.113.0.203.in-addr.arpa
+print(f"Tipo: {'IPv4' if addr_obj.version == 4 else 'IPv6'}")
 ```
+
+**O que aprenderás:**
+- Criar objetos `IPAddress`
+- Validar endereços IPv4 e IPv6
+- Acessar propriedades (versão, DNS reverso, representação binária)
+- Tratar erros de formato inválido
 
 ---
 
-📘 **Tutorial 2  - IPNetwork e IPSet**
+### 2️⃣ **Tutorial 2 - IPNetwork e IPSet**  
+Trabalhar com redes e conjuntos de endereços
+
+**Arquivo:** `Tutorial_2_-_IPNetwork_e_IPSet.py`
 
 ```python
 from netaddr import IPNetwork, IPSet
 
+# Criar uma rede
+rede = IPNetwork('192.168.1.0/24')
+print(f"Rede: {rede}")
+print(f"Tamanho: {rede.size} endereços")
+print(f"Broadcast: {rede.broadcast}")
+
+# Criar um conjunto de IPs autorizados
 ips_autorizados = IPSet()
-ips_autorizados.add(IPNetwork('10.0.0.0/8'))      # Rede interna
-ips_autorizados.add(IPNetwork('172.16.0.0/12'))   # Rede privada
-ips_autorizados.add(IPNetwork('192.168.0.0/16'))  # Rede privada
+ips_autorizados.add(IPNetwork('10.0.0.0/8'))
+ips_autorizados.add(IPNetwork('192.168.0.0/16'))
 
-ips_para_testar = ['10.50.100.1', '8.8.8.8', '172.20.1.1', '192.168.100.1']
-
-print(f"IPs autorizados: {len(ips_autorizados)} endereços totais\n")
-for ip in ips_para_testar:
-    autorizado = ip in ips_autorizados
-    status = "✓ Autorizado" if autorizado else "✗ Não autorizado"
-    print(f"  {ip}: {status}")
-
-#IPs autorizados: 17891328 endereços totais
-
-#  10.50.100.1: ✓ Autorizado
-#  8.8.8.8: ✗ Não autorizado
-#  172.20.1.1: ✓ Autorizado
-#  192.168.100.1: ✓ Autorizado
+# Verificar autorização
+print(f"10.50.100.1 autorizado? {'10.50.100.1' in ips_autorizados}")
 ```
+
+**O que aprenderás:**
+- Criar e manipular redes com `IPNetwork`
+- Iterar sobre hosts de uma rede
+- Dividir redes em sub-redes (subnetting)
+- Usar `IPSet` para verificações rápidas de pertença
 
 ---
 
-📘 **Tutorial 3  - IPRange e IPGlob**
+### 3️⃣ **Tutorial 3 - IPRange e IPGlob**  
+Trabalhar com intervalos e padrões de endereços
+
+**Arquivo:** `Tutorial_3_-_IPRange_e_IPGlob.py`
 
 ```python
-from netaddr import IPRange
+from netaddr import IPRange, IPGlob
 
-i# Criar um intervalo de IPs
+# Intervalo de IPs
 intervalo = IPRange('192.168.1.1', '192.168.1.10')
 print(f"Intervalo: {intervalo}")
 print(f"Tamanho: {len(intervalo)} IPs")
-print()
 
-# Listar os IPs no intervalo
-print("IPs no intervalo:")
-for ip in intervalo:
-    print(f"  - {ip}")
-
-#Intervalo: 192.168.1.1-192.168.1.10
-#Tamanho: 10 IPs
-
-#IPs no intervalo:
-#  - 192.168.1.1
-#  - 192.168.1.2
-#  - 192.168.1.3
-#  - 192.168.1.4
-#  - 192.168.1.5
-#  - 192.168.1.6
-#  - 192.168.1.7
-#  - 192.168.1.8
-#  - 192.168.1.9
-#  - 192.168.1.10
-
-from netaddr import IPGlob
-
-# Padrão simples com wildcard
-glob1 = IPGlob('192.168.1.*')
-print(f"Padrão: 192.168.1.*")
-print(f"Tamanho: {len(glob1)} IPs")
-print("Primeiros 5 IPs:")
-for ip in list(glob1)[:5]:
-    print(f"  - {ip}")
-
-#Padrão: 192.168.1.*
-#Tamanho: 256 IPs
-#Primeiros 5 IPs:
-#  - 192.168.1.0
-#  - 192.168.1.1
-#  - 192.168.1.2
-#  - 192.168.1.3
-#  - 192.168.1.4
+# Padrão glob (wildcard)
+glob = IPGlob('192.168.1.*')
+print(f"IPs no padrão: {len(glob)}")
 ```
+
+**O que aprenderás:**
+- Criar intervalos de IPs com `IPRange`
+- Usar padrões glob com wildcards
+- Trabalhar com IPv4 e IPv6 em intervalos
 
 ---
 
-📘 **Tutorial 4  - MAC**
+### 4️⃣ **Tutorial 4 - MAC (EUI)**  
+Trabalhar com endereços MAC em diferentes formatos
+
+**Arquivo:** `Tutorial_4_-_MAC.py`
 
 ```python
 from netaddr import EUI, mac_bare, mac_unix, mac_cisco
 
+# Criar endereço MAC
 mac = EUI('00:11:22:33:44:55')
 
 # Diferentes formatos de saída
@@ -141,25 +162,118 @@ print(f"Padrão (IEEE):      {mac}")
 print(f"Formato BARE:       {mac.format(mac_bare)}")
 print(f"Formato UNIX:       {mac.format(mac_unix)}")
 print(f"Formato CISCO:      {mac.format(mac_cisco)}")
-print()
 
-print(f"Binária:            {bin(int(mac))}")
+# Representações numéricas
 print(f"Hexadecimal:        {hex(int(mac))}")
 print(f"Inteira:            {int(mac)}")
-print()
+```
 
-#Padrão (IEEE):      00-11-22-33-44-55
-#Formato BARE:       001122334455
-#Formato UNIX:       0:11:22:33:44:55
-#Formato CISCO:      0011.2233.4455
+**O que aprenderás:**
+- Validar endereços MAC
+- Converter entre múltiplos formatos (IEEE, UNIX, CISCO, BARE)
+- Trabalhar com representações binárias e hexadecimais
 
-#Binária:            0b1000100100010001100110100010001010101
-#Hexadecimal:        0x1122334455
-#Inteira:            73588229205
+---
+
+### 5️⃣ **Tutorial 5 - Zona Reversa DNS**  
+Criar e gerir zonas de DNS reverso para redes
+
+**Arquivo:** `Tutorial_5_-_Zona_Reversa.py`
+
+```python
+from netaddr import IPNetwork, IPAddress
+
+# Definir uma rede
+rede = IPNetwork('192.0.2.0/24')
+
+# Obter zona reversa
+zona_reversa = rede[0].reverse_dns
+print(f"Zona Reversa: {zona_reversa}")
+# Output: 2.0.192.in-addr.arpa
+
+# Reverse DNS de IPs individuais
+ip = IPAddress('192.0.2.45')
+print(f"Reverso de {ip}: {ip.reverse_dns}")
+```
+
+**O que aprenderás:**
+- Gerar zonas de DNS reverso
+- Trabalhar com in-addr.arpa (IPv4) e ip6.arpa (IPv6)
+- Criar registos DNS reversos
+
+---
+
+## 💡 Exemplos Rápidos
+
+### ✨ Validar um IP
+
+```python
+from netaddr import IPAddress, AddrFormatError
+
+try:
+    ip = IPAddress('192.168.1.1')
+    print(f"✓ {ip} é válido")
+except AddrFormatError:
+    print("✗ Endereço inválido")
+```
+
+### ✨ Verificar se um IP está numa rede
+
+```python
+from netaddr import IPNetwork
+
+rede = IPNetwork('10.0.0.0/8')
+print('10.50.100.1' in rede)  # True
+print('172.16.0.1' in rede)   # False
+```
+
+### ✨ Listar todos os hosts de uma rede
+
+```python
+from netaddr import IPNetwork
+
+rede = IPNetwork('192.168.1.0/28')
+for ip in rede:
+    print(ip)
+```
+
+### ✨ Dividir uma rede em sub-redes
+
+```python
+from netaddr import IPNetwork
+
+rede = IPNetwork('192.168.0.0/24')
+for subrede in rede.subnet(26):
+    print(f"{subrede} - {subrede.size} hosts")
+```
+
+### ✨ Converter formatos de MAC
+
+```python
+from netaddr import EUI, mac_cisco
+
+mac = EUI('00:11:22:33:44:55')
+print(mac.format(mac_cisco))  # 0011.2233.4455
 ```
 
 ---
 
 ## 📚 Referências
 
-- **Documentação Oficial do netaddr**: https://netaddr.readthedocs.io/en/latest/index.html
+- **[Documentação Oficial do netaddr](https://netaddr.readthedocs.io/)**
+- **[Código-fonte no GitHub](https://github.com/netaddr/netaddr)**
+- **[PyPI - netaddr](https://pypi.org/project/netaddr/)**
+
+---
+
+## 📝 Licença
+
+Este repositório está licenciado sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
+
+---
+
+<div align="center">
+
+**Made with ❤️ para a comunidade de automação de redes**
+
+</div>
